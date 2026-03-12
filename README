@@ -1,0 +1,99 @@
+# AWS Terraform DevOps Lab
+
+Proyecto de laboratorio DevOps para crear infraestructura en AWS utilizando **Terraform** y buenas prácticas de **Infrastructure as Code (IaC)**.
+
+## 📌 Objetivo
+
+Este repositorio demuestra cómo crear y gestionar infraestructura en AWS usando Terraform con una estructura modular y organizada, similar a la utilizada en proyectos DevOps reales.
+
+El laboratorio incluye:
+
+* Creación de recursos AWS con Terraform
+* Uso de módulos reutilizables
+* Separación de entornos
+* Buenas prácticas de infraestructura como código
+
+---
+
+## 🛠 Tecnologías utilizadas
+
+* Terraform
+* AWS
+* Git & GitHub
+* Infrastructure as Code (IaC)
+
+---
+
+## 📁 Estructura del proyecto
+
+```
+aws-terraform-devops-lab
+│
+├ terraform
+│   ├ main.tf
+│   ├ providers.tf
+│   ├ variables.tf
+│   └ outputs.tf
+│
+├ modules
+│   └ s3_bucket
+│       ├ main.tf
+│       ├ variables.tf
+│       └ outputs.tf
+│
+├ environments
+│   └ dev
+│
+├ docs
+├ .gitignore
+└ README.md
+```
+
+---
+
+## ☁ Infraestructura creada
+
+Actualmente este laboratorio crea:
+
+* **Amazon S3 Bucket** para pruebas DevOps
+
+Terraform gestiona el ciclo de vida completo de la infraestructura.
+
+---
+
+## 🚀 Cómo usar este proyecto
+
+### 1. Clonar el repositorio
+
+```
+git clone https://github.com/liquenson/aws-terraform-devops-lab.git
+cd aws-terraform-devops-lab/terraform
+```
+
+### 2. Inicializar Terraform
+
+```
+terraform init
+```
+
+### 3. Ver el plan de infraestructura
+
+```
+terraform plan
+```
+
+### 4. Crear la infraestructura
+
+```
+terraform apply
+```
+
+---
+
+## 🔒 Buenas prácticas aplicadas
+
+* Uso de `.gitignore` para evitar subir:
+
+  * `.terraform`
+  * `terraform.tfstate`
+* Infraestruct
