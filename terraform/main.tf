@@ -17,3 +17,22 @@ module "iam" {
   source      = "../modules/iam"
   environment = var.environment
 }
+
+module "ecr" {
+  source      = "../modules/ecr"
+  environment = var.environment
+}
+
+module "eks" {
+  source               = "../modules/eks"
+  environment          = var.environment
+  kubernetes_version   = var.kubernetes_version
+  private_subnet_ids   = module.vpc.private_subnet_ids
+  vpc_id               = module.vpc.vpc_id
+  instance_type        = var.instance_type
+  desired_capacity     = var.desired_capacity
+  min_capacity         = var.min_capacity
+  max_capacity         = var.max_capacity
+  eks_cluster_role_arn = module.iam.eks_cluster_role_arn
+  eks_nodes_role_arn   = module.iam.eks_nodes_role_arn
+}
