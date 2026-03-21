@@ -36,3 +36,20 @@ module "eks" {
   eks_cluster_role_arn = module.iam.eks_cluster_role_arn
   eks_nodes_role_arn   = module.iam.eks_nodes_role_arn
 }
+
+module "rds" {
+  source             = "../modules/rds"
+  environment        = var.environment
+  instance_class     = var.rds_instance
+  db_name            = var.db_name
+  db_username        = var.db_username
+  db_password        = var.db_password
+  private_subnet_ids = module.vpc.private_subnet_ids
+  vpc_id             = module.vpc.vpc_id
+}
+
+module "cloudwatch" {
+  source       = "../modules/cloudwatch"
+  environment  = var.environment
+  cluster_name = module.eks.cluster_name
+}
