@@ -1,0 +1,19 @@
+---
+- name: Configurar nodos worker EKS
+  hosts: eks_nodes
+  become: true
+  vars:
+    aws_region: "eu-west-1"
+    ecr_registry: "538079272432.dkr.ecr.eu-west-1.amazonaws.com"
+  tasks:
+    - name: Instalar herramientas AWS
+      yum:
+        name: [amazon-ssm-agent, awscli, jq]
+        state: present
+    - name: Iniciar SSM Agent
+      service: { name: amazon-ssm-agent, state: started, enabled: yes }
+    - name: Autenticar Docker con ECR
+      shell: |
+        aws ecr get-login-password --region {{ aws_region }} | \
+          docker login --username AWS --password-stdin {{ ecr_registry }}
+      changed_when: false
