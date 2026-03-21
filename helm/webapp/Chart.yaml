@@ -1,0 +1,9 @@
+apiVersion: v2
+name: webapp
+description: Helm chart para EKS en eu-west-1
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+maintainers:
+  - name: Liquenson Ruben
+    email: liquenson.cloud@gmail.com

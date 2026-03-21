@@ -1,0 +1,25 @@
+replicaCount: 2
+
+image:
+  repository: 538079272432.dkr.ecr.eu-west-1.amazonaws.com/webapp
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+resources:
+  requests: { cpu: "100m", memory: "128Mi" }
+  limits:   { cpu: "250m", memory: "256Mi" }
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+
+env:
+  - name: AWS_REGION
+    value: "eu-west-1"
