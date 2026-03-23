@@ -1,99 +1,477 @@
-# AWS Terraform DevOps Lab
+# ��� AWS Terraform DevOps Lab
 
-Proyecto de laboratorio DevOps para crear infraestructura en AWS utilizando **Terraform** y buenas prácticas de **Infrastructure as Code (IaC)**.
+> **Proyecto de laboratorio DevOps** para crear, gestionar y escalar infraestructura en AWS utilizando Terraform y un conjunto completo de herramientas modernas de DevOps bajo los principios de **Infrastructure as Code (IaC)**.
 
-## 📌 Objetivo
-
-Este repositorio demuestra cómo crear y gestionar infraestructura en AWS usando Terraform con una estructura modular y organizada, similar a la utilizada en proyectos DevOps reales.
-
-El laboratorio incluye:
-
-* Creación de recursos AWS con Terraform
-* Uso de módulos reutilizables
-* Separación de entornos
-* Buenas prácticas de infraestructura como código
+![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white)
+![ArgoCD](https://img.shields.io/badge/ArgoCD-EF7B4D?style=for-the-badge&logo=argo&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white)
 
 ---
 
-## 🛠 Tecnologías utilizadas
+## ��� Tabla de Contenidos
 
-* Terraform
-* AWS
-* Git & GitHub
-* Infrastructure as Code (IaC)
+- [Descripción General](#-descripción-general)
+- [Stack Tecnológico](#-stack-tecnológico)
+- [Arquitectura del Proyecto](#-arquitectura-del-proyecto)
+- [Estructura de Directorios](#-estructura-de-directorios)
+- [Módulos de Terraform](#-módulos-de-terraform)
+- [Entornos](#-entornos)
+- [Kubernetes & Helm](#-kubernetes--helm)
+- [GitOps con ArgoCD](#-gitops-con-argocd)
+- [Automatización con Ansible](#-automatización-con-ansible)
+- [Monitoreo y Observabilidad](#-monitoreo-y-observabilidad)
+- [Pipeline CI/CD](#-pipeline-cicd)
+- [Scripts de Utilidad](#-scripts-de-utilidad)
+- [Requisitos Previos](#-requisitos-previos)
+- [Cómo Empezar](#-cómo-empezar)
+- [Buenas Prácticas](#-buenas-prácticas)
+- [Archivos Sensibles](#-archivos-sensibles)
 
 ---
 
-## 📁 Estructura del proyecto
+## ��� Descripción General
+
+Este repositorio es un laboratorio DevOps completo que demuestra cómo construir y gestionar infraestructura en la nube de AWS siguiendo las mejores prácticas del sector. El proyecto integra múltiples herramientas del ecosistema DevOps moderno en un solo pipeline cohesivo, desde el aprovisionamiento de infraestructura con Terraform hasta el despliegue continuo con ArgoCD.
+
+**Objetivos principales del proyecto:**
+
+- Crear y gestionar recursos de AWS de forma declarativa mediante Terraform
+- Implementar módulos reutilizables para cada servicio de AWS
+- Separar configuraciones por entorno (`dev` / `prod`) para mayor seguridad y control
+- Orquestar contenedores con Kubernetes sobre Amazon EKS
+- Automatizar configuraciones de servidores con Ansible
+- Aplicar una estrategia GitOps completa con ArgoCD
+- Monitorear la infraestructura con Prometheus
+- Ejecutar pipelines de CI/CD automatizados con GitHub Actions y Jenkins
+
+---
+
+## ��� Stack Tecnológico
+
+| Categoría | Tecnología | Descripción |
+|-----------|-----------|-------------|
+| **IaC** | Terraform (HCL 82.4%) | Aprovisionamiento de infraestructura AWS |
+| **Cloud** | Amazon Web Services | Proveedor de nube principal |
+| **Contenedores** | Docker | Empaquetado de aplicaciones |
+| **Orquestación** | Kubernetes + EKS | Gestión de contenedores en AWS |
+| **Packaging K8s** | Helm | Gestión de charts para Kubernetes |
+| **GitOps** | ArgoCD | Despliegue continuo declarativo |
+| **Config Mgmt** | Ansible | Automatización de configuración de servidores |
+| **Monitoreo** | Prometheus | Métricas y alertas de infraestructura |
+| **CI/CD** | GitHub Actions + Jenkins | Pipelines de integración y entrega continua |
+| **Calidad** | SonarQube | Análisis estático de código |
+| **Scripting** | Python (11%) + Shell (2.6%) | Scripts de automatización y validación |
+
+---
+
+## ��� Arquitectura del Proyecto
 
 ```
-aws-terraform-devops-lab
-│
-├ terraform
-│   ├ main.tf
-│   ├ providers.tf
-│   ├ variables.tf
-│   └ outputs.tf
-│
-├ modules
-│   └ s3_bucket
-│       ├ main.tf
-│       ├ variables.tf
-│       └ outputs.tf
-│
-├ environments
-│   └ dev
-│
-├ docs
-├ .gitignore
-└ README.md
+┌─────────────────────────────────────────────────────────────────┐
+│                        DEVELOPER                                │
+│                    (git push → GitHub)                          │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   CI/CD PIPELINE                                │
+│          GitHub Actions (ci-cd.yml) + Jenkinsfile               │
+│    ┌─────────┐  ┌──────────┐  ┌──────────┐  ┌────────────┐    │
+│    │  Lint   │→ │  Test    │→ │  Build   │→ │  Deploy    │    │
+│    │Terraform│  │SonarQube │  │  Docker  │  │  ArgoCD    │    │
+│    └─────────┘  └──────────┘  └──────────┘  └────────────┘    │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+           ┌─────────────┴─────────────┐
+           ▼                           ▼
+┌──────────────────┐       ┌──────────────────────┐
+│  INFRAESTRUCTURA │       │   APLICACIÓN (K8s)   │
+│    (Terraform)   │       │   (Helm + ArgoCD)    │
+│                  │       │                      │
+│  ┌────────────┐  │       │  ┌────────────────┐  │
+│  │    VPC     │  │       │  │   Namespace    │  │
+│  ├────────────┤  │       │  ├────────────────┤  │
+│  │    EKS     │  │       │  │   Deployment   │  │
+│  ├────────────┤  │       │  ├────────────────┤  │
+│  │    RDS     │  │       │  │    Service     │  │
+│  ├────────────┤  │       │  ├────────────────┤  │
+│  │     S3     │  │       │  │      HPA       │  │
+│  ├────────────┤  │       │  └────────────────┘  │
+│  │    ECR     │  │       └──────────────────────┘
+│  ├────────────┤  │
+│  │    IAM     │  │       ┌──────────────────────┐
+│  ├────────────┤  │       │     MONITOREO        │
+│  │ CloudWatch │  │       │    (Prometheus)      │
+│  └────────────┘  │       │  prometheus-values   │
+└──────────────────┘       └──────────────────────┘
 ```
 
 ---
 
-## ☁ Infraestructura creada
+## ��� Estructura de Directorios
 
-Actualmente este laboratorio crea:
-
-* **Amazon S3 Bucket** para pruebas DevOps
-
-Terraform gestiona el ciclo de vida completo de la infraestructura.
+```
+aws-terraform-devops-lab/
+│
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml              # Pipeline de CI/CD con GitHub Actions
+│
+├── terraform/                     # Configuración raíz de Terraform
+│   ├── main.tf                    # Recursos principales de AWS
+│   ├── providers.tf               # Configuración del proveedor AWS
+│   ├── variables.tf               # Variables de entrada parametrizables
+│   ├── outputs.tf                 # Valores de salida tras el despliegue
+│   └── backend.tf                 # Backend remoto para el estado de Terraform
+│
+├── modules/                       # Módulos reutilizables de Terraform
+│   ├── cloudwatch/                # Monitoreo y logging en AWS
+│   ├── ecr/                       # Elastic Container Registry
+│   ├── eks/                       # Elastic Kubernetes Service
+│   ├── iam/                       # Identity & Access Management
+│   ├── rds/                       # Relational Database Service
+│   ├── s3_bucket/                 # Simple Storage Service
+│   └── vpc/                       # Virtual Private Cloud
+│
+├── environments/                  # Configuraciones por entorno
+│   ├── dev/                       # Variables y config del entorno de desarrollo
+│   └── prod/                      # Variables y config del entorno de producción
+│
+├── kubernetes/                    # Manifiestos de Kubernetes
+│   ├── namespace.yaml             # Definición del namespace
+│   ├── deployment.yaml            # Configuración del Deployment
+│   ├── service.yaml               # Exposición del servicio
+│   └── hpa.yaml                   # Horizontal Pod Autoscaler
+│
+├── helm/
+│   └── webapp/                    # Helm chart para la aplicación web
+│
+├── argocd/
+│   └── apps/                      # Definiciones de aplicaciones GitOps
+│
+├── ansible/
+│   ├── inventory/                 # Inventario de servidores gestionados
+│   └── playbooks/                 # Playbooks de automatización
+│
+├── monitoring/
+│   ├── prometheus-values.yaml     # Configuración de Prometheus (valores Helm)
+│   └── install.sh                 # Script de instalación del stack de monitoreo
+│
+├── docker/                        # Dockerfiles y configuraciones de contenedores
+│
+├── scripts/
+│   └── check_infra.py             # Script Python de validación de infraestructura
+│
+├── Jenkinsfile                    # Pipeline declarativo de Jenkins
+├── sonar-project.properties       # Configuración de análisis SonarQube
+└── README                         # Documentación del proyecto
+```
 
 ---
 
-## 🚀 Cómo usar este proyecto
+## ��� Módulos de Terraform
+
+El directorio `modules/` contiene componentes de infraestructura reutilizables e independientes. Cada módulo encapsula la lógica de un servicio de AWS específico, permitiendo su uso desde distintos entornos sin duplicar código.
+
+### `modules/vpc/`
+Crea y configura la red principal del proyecto en AWS:
+- VPC con CIDR configurable
+- Subnets públicas y privadas distribuidas en múltiples AZs
+- Internet Gateway y NAT Gateway
+- Route tables y asociaciones
+
+### `modules/eks/`
+Provisiona el clúster de Kubernetes gestionado de AWS:
+- Clúster EKS con versión parametrizable
+- Node Groups con configuración de instancias y escalado
+- Roles IAM y políticas necesarias para el clúster
+
+### `modules/rds/`
+Gestiona bases de datos relacionales:
+- Instancias RDS con motor configurable (MySQL, PostgreSQL, etc.)
+- Subnet groups y security groups
+- Backups automáticos y parámetros de retención
+
+### `modules/s3_bucket/`
+Módulo para buckets de S3:
+- Creación de buckets con nomenclatura estándar
+- Políticas de acceso y encriptación
+- Versionado y configuración de ciclo de vida
+
+### `modules/ecr/`
+Repositorio privado de imágenes Docker:
+- Creación del repositorio en Amazon ECR
+- Políticas de ciclo de vida para gestión de imágenes
+- Permisos de acceso para EKS y CI/CD
+
+### `modules/iam/`
+Gestión de identidades y permisos:
+- Roles y políticas para servicios de AWS
+- Instance profiles para EC2
+- Políticas para acceso entre servicios
+
+### `modules/cloudwatch/`
+Observabilidad y logging en AWS:
+- Log groups y retención de logs
+- Alarmas y métricas personalizadas
+- Dashboards de monitoreo
+
+---
+
+## ��� Entornos
+
+El proyecto separa la infraestructura en dos entornos independientes:
+
+### `environments/dev/`
+Entorno de **desarrollo y pruebas**. Configurado para minimizar costos con instancias de menor tamaño, sin alta disponibilidad, y con configuraciones relajadas para facilitar el testing rápido.
+
+### `environments/prod/`
+Entorno de **producción**. Configurado para máxima disponibilidad, seguridad y rendimiento. Incluye configuraciones de multi-AZ, backups, y límites de acceso más estrictos.
+
+Cada entorno define sus propios valores de variables (`*.tfvars`) sin modificar el código base de los módulos.
+
+---
+
+## ☸️ Kubernetes & Helm
+
+### Manifiestos (`kubernetes/`)
+
+| Archivo | Propósito |
+|---------|-----------|
+| `namespace.yaml` | Aísla los recursos de la aplicación dentro del clúster |
+| `deployment.yaml` | Define el estado deseado de los pods de la aplicación |
+| `service.yaml` | Expone la aplicación al tráfico interno o externo |
+| `hpa.yaml` | Escala automáticamente los pods según uso de CPU/memoria |
+
+### Helm Chart (`helm/webapp/`)
+Chart de Helm que empaqueta todos los manifiestos de Kubernetes de la aplicación web en un artefacto versionable y configurable. Permite desplegar la aplicación con un solo comando y gestionar distintas configuraciones por entorno mediante `values.yaml`.
+
+---
+
+## ��� GitOps con ArgoCD
+
+El directorio `argocd/apps/` contiene las definiciones de aplicaciones de ArgoCD. ArgoCD implementa el patrón **GitOps**: el repositorio Git actúa como la única fuente de verdad del estado deseado del clúster.
+
+**Flujo GitOps:**
+1. El desarrollador hace un commit con cambios en los manifiestos de Kubernetes o en el chart de Helm.
+2. ArgoCD detecta la diferencia entre el estado del repositorio y el estado del clúster.
+3. ArgoCD sincroniza automáticamente (o bajo aprobación manual) el clúster al estado definido en Git.
+4. Se registra un historial completo de todos los cambios y se permite rollback inmediato.
+
+---
+
+## ⚙️ Automatización con Ansible
+
+El directorio `ansible/` gestiona la configuración de servidores ya aprovisionados por Terraform.
+
+### `ansible/inventory/`
+Define los grupos de hosts gestionados (instancias EC2, nodos del clúster, etc.) con sus datos de conexión.
+
+### `ansible/playbooks/`
+Playbooks que automatizan tareas repetitivas como:
+- Instalación y configuración de software
+- Aplicación de parches de seguridad
+- Configuración de servicios del sistema
+- Hardening de servidores
+
+---
+
+## ��� Monitoreo y Observabilidad
+
+### `monitoring/prometheus-values.yaml`
+Archivo de valores para desplegar Prometheus mediante su chart de Helm oficial. Configura:
+- Reglas de scraping de métricas
+- Retención de datos
+- Configuración de alertas
+- Integración con el clúster EKS
+
+### `monitoring/install.sh`
+Script shell que automatiza la instalación completa del stack de monitoreo en el clúster Kubernetes, incluyendo la adición del repositorio Helm y el despliegue de Prometheus con los valores personalizados.
+
+---
+
+## ��� Pipeline CI/CD
+
+El proyecto implementa dos pipelines complementarios:
+
+### GitHub Actions (`.github/workflows/ci-cd.yml`)
+Pipeline principal que se ejecuta automáticamente en cada push o pull request:
+
+```
+Trigger: push / pull_request
+    │
+    ├── Stage 1: Validate
+    │   ├── terraform fmt -check
+    │   ├── terraform validate
+    │   └── tflint (linting de HCL)
+    │
+    ├── Stage 2: Security & Quality
+    │   └── SonarQube analysis (sonar-project.properties)
+    │
+    ├── Stage 3: Build
+    │   └── Docker build + push a ECR
+    │
+    └── Stage 4: Deploy
+        └── ArgoCD sync (actualiza manifiestos)
+```
+
+### Jenkins (`Jenkinsfile`)
+Pipeline declarativo de Jenkins como alternativa o complemento a GitHub Actions para entornos on-premise o integraciones corporativas.
+
+---
+
+## ��� Scripts de Utilidad
+
+### `scripts/check_infra.py`
+Script Python que valida el estado de la infraestructura desplegada en AWS. Puede incluir comprobaciones como:
+- Verificar que los recursos de Terraform estén activos y en el estado esperado
+- Comprobar la conectividad entre servicios
+- Validar configuraciones de seguridad (grupos de seguridad, políticas IAM)
+- Generar reportes del estado del entorno
+
+---
+
+## ✅ Requisitos Previos
+
+Asegúrate de tener instaladas y configuradas las siguientes herramientas:
+
+```bash
+# Infraestructura
+terraform >= 1.5.0
+aws-cli >= 2.0
+
+# Contenedores y Kubernetes
+docker >= 20.0
+kubectl >= 1.27
+helm >= 3.12
+
+# GitOps
+argocd-cli >= 2.8
+
+# Automatización
+ansible >= 2.14
+python >= 3.10
+
+# CI/CD local
+jenkins (opcional, para pipeline local)
+```
+
+**Configuración de credenciales AWS:**
+```bash
+aws configure
+# AWS Access Key ID: [tu-access-key]
+# AWS Secret Access Key: [tu-secret-key]
+# Default region: us-east-1
+# Default output format: json
+```
+
+---
+
+## ��� Cómo Empezar
 
 ### 1. Clonar el repositorio
-
-```
-git clone https://github.com/liquenson/aws-terraform-devops-lab.git
-cd aws-terraform-devops-lab/terraform
+```bash
+git clone https://github.com/Liquenson/aws-terraform-devops-lab.git
+cd aws-terraform-devops-lab
 ```
 
 ### 2. Inicializar Terraform
-
-```
+```bash
+cd terraform
 terraform init
 ```
 
-### 3. Ver el plan de infraestructura
+### 3. Seleccionar el entorno
+```bash
+# Para desarrollo
+terraform plan -var-file="../environments/dev/terraform.tfvars"
 
-```
-terraform plan
+# Para producción
+terraform plan -var-file="../environments/prod/terraform.tfvars"
 ```
 
-### 4. Crear la infraestructura
-
+### 4. Aplicar la infraestructura
+```bash
+terraform apply -var-file="../environments/dev/terraform.tfvars"
 ```
-terraform apply
+
+### 5. Configurar kubectl para EKS
+```bash
+aws eks update-kubeconfig --region us-east-1 --name <nombre-del-cluster>
+```
+
+### 6. Desplegar la aplicación con Helm
+```bash
+helm upgrade --install webapp ./helm/webapp/ -n webapp --create-namespace
+```
+
+### 7. Verificar la infraestructura
+```bash
+python scripts/check_infra.py
 ```
 
 ---
 
-## 🔒 Buenas prácticas aplicadas
+## ��� Buenas Prácticas
 
-* Uso de `.gitignore` para evitar subir:
+Este proyecto sigue las siguientes convenciones y buenas prácticas:
 
-  * `.terraform`
-  * `terraform.tfstate`
-* Infraestruct
+- **Modularidad:** Cada servicio de AWS está encapsulado en su propio módulo reutilizable.
+- **Separación de entornos:** `dev` y `prod` con variables independientes, sin duplicar código.
+- **Estado remoto:** El estado de Terraform se almacena remotamente (backend S3) para trabajo en equipo.
+- **GitOps:** El repositorio Git es la única fuente de verdad para el estado del sistema.
+- **Principio de mínimo privilegio:** Los roles IAM conceden sólo los permisos estrictamente necesarios.
+- **Infraestructura inmutable:** Los cambios se aplican reemplazando recursos, no modificándolos en caliente.
+- **Documentación como código:** Cada módulo y recurso está documentado con comentarios y variables descriptivas.
+
+---
+
+## ��� Archivos Sensibles
+
+Los siguientes archivos y directorios están en el `.gitignore` y **nunca deben ser commiteados** al repositorio:
+
+```gitignore
+# Estado de Terraform (contiene información sensible de la infraestructura)
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl
+
+# Variables con secretos
+*.tfvars          # Puede contener claves, contraseñas, etc.
+terraform.tfvars
+
+# Credenciales AWS
+.aws/
+credentials
+
+# Variables de entorno
+.env
+*.env
+
+# Artefactos de build
+*.zip
+*.tar.gz
+```
+
+> ⚠️ **Importante:** Si accidentalmente se commitea un archivo con credenciales, se deben rotar inmediatamente las claves de AWS y limpiar el historial de Git.
+
+---
+
+## ��� Autor
+
+**Rubén Liquenson** — [@Liquenson](https://github.com/Liquenson)
+
+---
+
+## ��� Licencia
+
+Este proyecto es un laboratorio de aprendizaje con fines educativos y de demostración de habilidades DevOps.
+
+---
+
+*Generado como documentación técnica del proyecto aws-terraform-devops-lab*
+
