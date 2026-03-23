@@ -1,0 +1,15 @@
+environment        = "dev"
+aws_region         = "eu-west-1"
+bucket_name        = "devops-lab-dev-538079272432"
+vpc_cidr           = "10.0.0.0/16"
+public_subnets     = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
+private_subnets    = ["10.0.10.0/24", "10.0.11.0/24", "10.0.12.0/24"]
+availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+instance_type      = "t3.small"
+desired_capacity   = 2
+min_capacity       = 1
+max_capacity       = 4
+kubernetes_version = "1.31"
+db_name            = "appdb"
+db_username        = "dbadmin"
+rds_instance       = "db.t3.micro"
