@@ -15,7 +15,7 @@ resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = var.public_subnets[count.index]
   availability_zone       = var.availability_zones[count.index]
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
   tags = {
     Name                     = "${var.environment}-public-${count.index + 1}"
     "kubernetes.io/role/elb" = "1"
