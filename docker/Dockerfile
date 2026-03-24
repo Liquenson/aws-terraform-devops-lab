@@ -10,12 +10,10 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instalar curl para healthcheck
+# Instalar curl y crear usuario no root
 RUN apt-get update && apt-get install -y --no-install-recommends curl \
-    && rm -rf /var/lib/apt/lists/*
-
-# Crear usuario no root
-RUN useradd -m appuser
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m appuser
 
 # Copiar dependencias desde builder
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages

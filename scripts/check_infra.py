@@ -45,7 +45,8 @@ def check_backend():
     s3 = boto3.client("s3", region_name=REGION)
     bucket = "devops-lab-tfstate-538079272432"
     try:
-        s3.head_bucket(Bucket=bucket)
+        account_id = boto3.client("sts", region_name=REGION).get_caller_identity()["Account"]
+        s3.head_bucket(Bucket=bucket, ExpectedBucketOwner=account_id)
         print(f"[OK] S3 backend: {bucket}")
         return True
 
