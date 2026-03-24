@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-@app.route("/")
+@app.route("/", methods=["GET"])
 def index():
     return jsonify({
         "app": "devops-lab-webapp",
@@ -12,13 +12,13 @@ def index():
         "status": "ok"
     })
 
-@app.route("/health")
+@app.route("/health", methods=["GET"])
 def health():
     return jsonify({"status": "healthy"}), 200
 
-@app.route("/ready")
+@app.route("/ready", methods=["GET"])
 def ready():
     return jsonify({"status": "ready"}), 200
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    app.run(host="127.0.0.1", port=8080)

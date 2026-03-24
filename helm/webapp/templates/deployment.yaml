@@ -16,6 +16,7 @@ spec:
     metadata:
       labels: {{- include "webapp.selectorLabels" . | nindent 8 }}
     spec:
+      automountServiceAccountToken: false
       containers:
         - name: webapp
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
