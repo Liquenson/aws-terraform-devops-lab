@@ -72,7 +72,13 @@ def test_check_ecr_generic_error():
 
 def test_check_backend_found():
     with patch("check_infra.boto3.client") as mock_client:
-        mock_client.return_value.head_bucket.return_value = {}
+        mock_sts = MagicMock()
+        mock_sts.get_caller_identity.return_value = {"Account": "123456789012"}
+        mock_s3 = MagicMock()
+        mock_s3.head_bucket.return_value = {}
+        mock_client.side_effect = lambda service, **kwargs: (
+            mock_sts if service == "sts" else mock_s3
+        )
         assert check_backend() is True
 
 
