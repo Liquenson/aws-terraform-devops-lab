@@ -1,0 +1,13 @@
+[run]
+source =
+    docker/src
+    scripts
+omit =
+    */tests/*
+    */__pycache__/*
+
+[report]
+show_missing = True
+
+[xml]
+output = coverage.xml
