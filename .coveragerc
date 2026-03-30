@@ -5,6 +5,7 @@ source =
 omit =
     */tests/*
     */__pycache__/*
+relative_files = True
 
 [report]
 show_missing = True
