@@ -465,8 +465,8 @@ terraform validate
 
 ## 👤 Autor
 
-**Rubén Alexis Liquenson**  
-DevOps Engineer | AWS & Kubernetes Specialist  
+**Liquenson Rubén**  
+DevOps Engineer || Cloud & Linux Administrator || AWS || Kubernetes 
 
 - GitHub: [@Liquenson](https://github.com/Liquenson)
 - LinkedIn: [Liquenson Ruben](https://www.linkedin.com/in/liquenson-ruben)
