@@ -796,7 +796,7 @@ Este proyecto sigue un flujo de trabajo basado en Pull Requests. Para contribuir
 ## Autor
 
 **Rubén Liquenson**
-DevOps Engineer · Cloud Engineering · Linux Systems · AWS
+DevOps Engineer || Cloud & Linux Administrator || AWS || Kubernetes · 
 Gran Canaria, España
 
 [![GitHub](https://img.shields.io/badge/GitHub-Liquenson-181717?logo=github)](https://github.com/Liquenson)
