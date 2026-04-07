@@ -1,9 +1,13 @@
 # AWS Terraform DevOps Lab
 
 [![CI/CD Pipeline](https://github.com/Liquenson/aws-terraform-devops-lab/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Liquenson/aws-terraform-devops-lab/actions/workflows/ci-cd.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&metric=alert_status)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&metric=security_rating)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&metric=coverage)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&organization=liquensonruben&metric=alert_status)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
+
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&organization=liquensonruben&metric=security_rating)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
+
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aws-terraform-devops-lab&organization=liquensonruben&metric=coverage)](https://sonarcloud.io/dashboard?id=aws-terraform-devops-lab)
+
 [![Terraform](https://img.shields.io/badge/Terraform-1.9.8-7B42BC?logo=terraform)](https://www.terraform.io/)
 [![Kubernetes](https://img.shields.io/badge/Kubernetes-1.29-326CE5?logo=kubernetes)](https://kubernetes.io/)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python)](https://www.python.org/)
