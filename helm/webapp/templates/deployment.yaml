@@ -26,11 +26,13 @@ spec:
               containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
-              memory: "64Mi"
               cpu: "50m"
+              memory: "64Mi"
+              ephemeral-storage: "256Mi"  # Fix: storage request (SonarCloud S6607)
             limits:
-              memory: "128Mi"
               cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "512Mi"  # Fix: storage limit
           {{- with .Values.env }}
           env: {{- toYaml . | nindent 12 }}
           {{- end }}
