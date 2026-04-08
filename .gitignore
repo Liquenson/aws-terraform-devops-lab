@@ -1,6 +1,63 @@
-terraform/.terraform.lock.hcl
-terraform/.terraform/
+# =========================
+# Terraform
+# =========================
+*.tfstate
+*.tfstate.*
+*.tfplan
+tfplan.dev
+*.tfvars
+*.tfvars.json
+
+# Terraform working directories
+.terraform/
+**/.terraform/*
+
+# =========================
+# Sensitive files
+# =========================
+*.pem
+*.key
+*.crt
+*.p12
+.env
+.env.*
+
+# =========================
+# Kubernetes
+# =========================
+kubeconfig
+*.kubeconfig
+
+# =========================
+# Logs and temporary files
+# =========================
+*.log
+*.tmp
+
+# =========================
+# IDE / Editors
+# =========================
 .vscode/
+.idea/
+
+# =========================
+# Python / Testing
+# =========================
+__pycache__/
+*.pyc
 .coverage
 coverage.xml
-**/__pycache__/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Terraform override files (optional, enterprise)
+# =========================
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json

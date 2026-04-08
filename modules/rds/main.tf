@@ -47,9 +47,9 @@ resource "aws_db_instance" "main" {
 
   multi_az                = var.environment == "prod" ? true : false
 
-  
-  skip_final_snapshot       = false
-  final_snapshot_identifier = "${var.environment}-db-final-snapshot"
+  skip_final_snapshot     = var.environment != "prod"
+
+  final_snapshot_identifier = var.environment == "prod" ? "${var.environment}-db-final-${replace(timestamp(), ":", "-")}" : "${var.environment}-db-skip"
 
   db_subnet_group_name    = aws_db_subnet_group.main.name
   vpc_security_group_ids  = [aws_security_group.rds.id]
