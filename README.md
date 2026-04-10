@@ -795,7 +795,7 @@ Este proyecto sigue un flujo de trabajo basado en Pull Requests. Para contribuir
 
 ## Autor
 
-**Rubén Liquenson**
+**Liquenson Rubén Alexis**
 DevOps Engineer || Cloud & Linux Administrator || AWS || Kubernetes · 
 Gran Canaria, España
 
