@@ -7,8 +7,6 @@
 [![Terraform](https://img.shields.io/badge/Terraform-1.9.8-7B42BC?logo=terraform)](https://www.terraform.io/)
 [![AWS](https://img.shields.io/badge/AWS-EKS%20%7C%20RDS%20%7C%20VPC-FF9900?logo=amazonaws)](https://aws.amazon.com/)
 
-## 🎯 ¿Qué es esto?
-
 **Infraestructura AWS de producción completa** desplegada con Terraform, ejecutando una aplicación Python/Flask en Kubernetes (EKS) con base de datos MySQL, CI/CD automático y monitoreo con Prometheus/Grafana.
 
 **En resumen:** Todo lo que necesitas para desplegar una aplicación web escalable en AWS usando Infrastructure as Code.
